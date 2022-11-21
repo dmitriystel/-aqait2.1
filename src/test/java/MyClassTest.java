@@ -2,63 +2,44 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 import java.time.Year;
-import java.util.Date;
 
 public class MyClassTest { // rename
 
-//    не находит элемент 2022
     @Test
     public void testCheckIfPrivacyPolicyRevisionSignedInCurrentYear(){
-
-
-        // 1. Navigate to main page - OK
+        // 1. Navigate to main page
         WebDriverManager.chromedriver().setup();
         String baseUrl = "https://store.steampowered.com/";
         ChromeDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(baseUrl);
-
-        // 2. Scroll and open PRIVACY POLICY. Privacy policy page is open in the new tab. - OK
-        // надо ли скролить? Открывается и без скролинга
+        // 2. Scroll and open PRIVACY POLICY. Privacy policy page is open in the new tab. Switch language elements list displayed.
         String xPathPrivacyPolicy = "//a[@href=\"https://store.steampowered.com/privacy_agreement/?snr=1_44_44_\"]";
         WebElement webElementPrivacyPolicy = driver.findElement(By.xpath(xPathPrivacyPolicy));
-        webElementPrivacyPolicy.click(); // добавить открытие на всю страницу
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        webElementPrivacyPolicy.click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        // 3. Policy revision signed in the current year.
+        String winHandleBefore = driver.getWindowHandle(); // Store the current window handle
+        for(String winHandle : driver.getWindowHandles()){ // Switch to new window opened
+            driver.switchTo().window(winHandle);
+        }
 
-//        Privacy policy page is open in the new tab. - да, но для этого ничего не делал, просто кликнул
-
-//        2. Switch language elements list displayed.
-//        Supported languages: English, Spanish, French, German, Italian, Russian, Japanese,
-//        Portuguese, Brazilian.
-//        да, но окрылись сами по себе. Надо ли проверять как то список?
-
-
-
-//        3. Policy revision signed in the current year.
-//             //i[contains(text(), '2022')]
-
+// Close the new window, if that window no more required
+        //driver.close();
+// Switch back to original browser (first window)
+        //driver.switchTo().window(winHandleBefore);
+// Continue with original browser (first window)
         String xPathPolicyRevision = "//i[contains(text(),'2022')]";
-        //String xPathPolicyRevisionCopyFromSite = "//*[@id=\"newsColumn\"]/i[3]";
         WebElement webElementPolicyRevision = driver.findElement(By.xpath(xPathPolicyRevision));
+        String policyRevision = webElementPolicyRevision.getText();
+        String currentYear = Integer.toString(Year.now().getValue());
 
-        //WebElement webElementPolicyRevision = driver.findElement(By.xpath(xPathPolicyRevisionCopyFromSite));
-
-        System.out.println(webElementPolicyRevision.getText());
-
-
-        // get current year
-       //int expectedResult = Year.now().getValue();
-
-
-
-
-
+        Assert.assertTrue(policyRevision.contains(currentYear), "Policy revision signed not in the current year.");
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
         //driver.quit();
     }
 
@@ -71,19 +52,16 @@ public class MyClassTest { // rename
         ChromeDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(baseUrl);
-
-        // 2. Search "Dota 2" in the search field
+        // 2. Search "Dota 2" in the search field - OK
         String xPathSearchField = "//input[@id=\"store_nav_search_term\"]";
         String gameTitle = "Dota 2";
         WebElement webElementInputGame = driver.findElement(By.xpath(xPathSearchField));
         webElementInputGame.sendKeys(gameTitle);
 
 
-        // изменить xPath так как дублируется
+        // изменить xPath так как дублируется, находит два варианта
         //String xPathSearchInSearchField = "//img[@src=\"https://store.akamai.steamstatic.com/public/images/blank.gif\"]";
-
         String xPathSearchInSearchField = "//*[@id=\"store_search_link\"]/img"; // xPath from devtool
-        // /html/body/div[1]/div[7]/div[6]/div[1]/div[2]/div[2]/div/div/div/div[2]/div[2]/div/div[9]/div[1]/form/div/a/img
         WebElement webElementSearchInSearchField = driver.findElement(By.xpath(xPathSearchInSearchField));
         webElementSearchInSearchField.click();
 
@@ -102,7 +80,25 @@ public class MyClassTest { // rename
         String resultFromList2 = webElementGameFromList2.getText();
         System.out.println(resultFromList2);
 
+        // Search the second name (received from result list) in the search field in the header
+        // взять второе имя из списка - The Dota 2 Remixes EP
+        // ввести в поиск и кликнуть
+        // Search box on result page contains searched name
+        //Result list contains 2 stored items form the previous search. All stored data are matched.
 
+
+        // переписать с извлечением названия игры из переменной
+        String xPathSecondNameFromResultList = "//span[text() = 'The Dota 2 Remixes EP']";
+        // извлечь текст из веб элемента
+        WebElement webElementSecondNameFromResultList = driver.findElement(By.xpath(xPathSecondNameFromResultList));
+        String secondName = webElementSecondNameFromResultList.getText();
+        System.out.println("second name is " + secondName);
+
+        String xPathSearchField2 = "//*[@id=\"term\"]";
+        WebElement webElementSearchField2 = driver.findElement(By.xpath(xPathSearchField2));
+        webElementSearchField2.clear();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        webElementSearchField2.sendKeys(secondName);
 
 
         //driver.quit();
