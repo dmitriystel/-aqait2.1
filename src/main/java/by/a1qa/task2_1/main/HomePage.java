@@ -4,48 +4,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class StoreSteamHomePage extends BasePage {
-    public final String URL = "https://store.steampowered.com/";
+public class HomePage extends BasePage {
+    public static final String HOMEPAGE_URL = "https://store.steampowered.com/";
     private final String GAME_TITLE = "Dota 2";
     By privacy_policy_locator = By.xpath("//a[@href=\"https://store.steampowered.com/privacy_agreement/?snr=1_44_44_\"]");
     By search_field_locator = By.xpath("//input[@id=\"store_nav_search_term\"]");
     By search_button_in_search_field_locator = By.xpath("//*[@id=\"store_search_link\"]/img");
-/*
-       Page Factory
-    Подготовка элементов страницы
-
-    By privacy_policy_locator = By.xpath("//a[@href=\"https://store.steampowered.com/privacy_agreement/?snr=1_44_44_\"]");
-
-    @FindBy (xpath = "//a[@href=\"https://store.steampowered.com/privacy_agreement/?snr=1_44_44_\"]")
-    private WebElement privacy_policy;
 
 
-    By search_field_locator = By.xpath("//input[@id=\"store_nav_search_term\"]");
 
-    @FindBy (xpath = "//input[@id=\"store_nav_search_term\"]")
-    private WebElement search_field;
-
-
-    By search_button_in_search_field = By.xpath("//*[@id=\"store_search_link\"]/img");
-
-    @FindBy (xpath = "//*[@id=\"store_search_link\"]/img")
-    private WebElement search_button_in_search_field;
-
- */
-private static StoreSteamHomePage instance;
-    private StoreSteamHomePage(WebDriver driver){
+private static HomePage instance;
+    private HomePage(WebDriver driver){
         super(driver);
     }
-    public static StoreSteamHomePage getInstance(){
+    public static HomePage getInstance(){
         if(instance == null){
-            instance = new StoreSteamHomePage(driver);
+            instance = new HomePage(driver);
         }
         return instance;
     }
 
-    public void clickButtonPrivacyPolicy(){
-        WebElement webElementPrivacyPolicy = driver.findElement(privacy_policy_locator);
+    public void clickButtonPrivacyPolicy(){ //  rename openPrivacyPolice
+        WebElement webElementPrivacyPolicy =
+                driver.findElement(privacy_policy_locator);
         webElementPrivacyPolicy.click();
+
+
     }
 
     public void switchToNewWindow(){
@@ -66,3 +50,15 @@ private static StoreSteamHomePage instance;
         webElementSearchButtonInSearchFieldBasePage.click();
     }
 }
+
+/*
+from Web Driver course by Epam
+
+    public SeleniumHQHomePage(){
+    driver.get(HOMEPAGE_URL);
+    new WebDriverWait(driver, 10)
+        .until(CustomCondition.jQueryAJAXsCompleted());
+        return this;
+    }
+
+ */

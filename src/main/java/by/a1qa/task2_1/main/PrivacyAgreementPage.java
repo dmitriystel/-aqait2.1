@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class StoreSteamPrivacyAgreementPage extends BasePage {
+public class PrivacyAgreementPage extends BasePage {
     // String xPathPolicyRevision = "//i[contains(text(),'2022')]";
     By policy_revision_locator = By.xpath("//i[contains(text(),'2022')]");
 
-    public StoreSteamPrivacyAgreementPage(WebDriver driver) {
+    public PrivacyAgreementPage(WebDriver driver) {
         super(driver);
     }
 
@@ -18,13 +18,5 @@ public class StoreSteamPrivacyAgreementPage extends BasePage {
     }
 
 
-    /*
-           Page Factory
-    Подготовка элементов страницы
 
-    By policy_revision_locator = By.xpath("//i[contains(text(),'2022')]");
-
-    @FindBy (xpath = "//i[contains(text(),'2022')]")
-    private WebElement policy_revision;
-     */
 }
