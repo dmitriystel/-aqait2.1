@@ -47,7 +47,7 @@ public class HomePagePF extends BasePage{
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         privacyPolicy.click();
         WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(5));
-
+        switchToNewWindow();
     }
 
     public void switchToNewWindow(){

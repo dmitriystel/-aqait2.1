@@ -11,18 +11,21 @@ public class HomePage extends BasePage {
     By search_field_locator = By.xpath("//input[@id=\"store_nav_search_term\"]");
     By search_button_in_search_field_locator = By.xpath("//*[@id=\"store_search_link\"]/img");
 
-
-
-private static HomePage instance;
-    private HomePage(WebDriver driver){
+    public HomePage(WebDriver driver) {
         super(driver);
     }
-    public static HomePage getInstance(){
-        if(instance == null){
-            instance = new HomePage(driver);
-        }
-        return instance;
-    }
+
+
+//private static HomePage instance;
+//    private HomePage(WebDriver driver){
+//        super(driver);
+//    }
+//    public static HomePage getInstance(){
+//        if(instance == null){
+//            instance = new HomePage(driver);
+//        }
+//        return instance;
+//    }
 
     public void clickButtonPrivacyPolicy(){ //  rename openPrivacyPolice
         WebElement webElementPrivacyPolicy =
