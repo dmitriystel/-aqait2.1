@@ -1,74 +1,69 @@
 package by.a1qa.task2_1test.main;
 
-import by.a1qa.task2_1.main.*;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import by.a1qa.task2_1.bean.GameInformation;
+import by.a1qa.task2_1.parser.ParserJsonToJava;
+import by.a1qa.task2_1.selenium.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.time.Duration;
 import java.time.Year;
+import java.util.List;
+
+import static by.a1qa.task2_1.selenium.SearchResultPagePF.DOTA2_SEARCH_RESULT_LIST_DB_PATH;
+import static by.a1qa.task2_1.selenium.SearchResultPagePF.SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH;
 
 public class StoreSteamTest {
-    WebDriver driver;
-    HomePagePF homePagePF;
-    PrivacyAgreementPagePF privacyAgreementPagePF;
-    SearchResultPagePF searchResultPagePF;
+    private WebDriver driver;
 
     @BeforeMethod
-    public void setWebDriver() {
+    public void browserSetUp() {
         driver = WebDriverSingleton.getInstance();
-        homePagePF = PageFactory.initElements(driver, HomePagePF.class);
-        privacyAgreementPagePF = PageFactory.initElements(driver, PrivacyAgreementPagePF.class);
-        searchResultPagePF = PageFactory.initElements(driver, SearchResultPagePF.class);
-        driver.get(HomePagePF.HOMEPAGE_URL);
-    }
-
-    @AfterClass
-    public void closeWebDiver() {
-        driver.quit();
+        driver.manage().window().maximize();
     }
 
     @Test
-    public void testPrivacyPolicySignedInCurrentYear(){
-        homePagePF.clickButtonPrivacyPolicy();
-
-        // Это тестовые данные? Т.е. эту строку нужно сохранить в json или xml?
-        String policyRevisionString = privacyAgreementPagePF.getPolicyRevisionString();
-
-        // Строку я должен получать из json
-
+    public void testPrivacyPolicySignedInCurrentYear() throws IOException {
+        String policyRevisionString = new HomePagePF(driver)
+                .openHomePage()
+                .scrollHomePage()
+                .openPrivacyPolicyPage()
+                .getPolicyRevisionString();
         Assert.assertTrue(policyRevisionString.contains(Integer.toString(Year.now().getValue())),
                 "Policy revision signed not in the current year.");
     }
 
     @Test
-    public void testGameSearch(){
-        homePagePF.searchDota2();
-        // Это тестовые данные которые надо сохранить в файл?
-        String firstResultFromListAfterSearchDota_2 = searchResultPagePF.getFirstResultFromListAfterSearchDota2();
-        String secondResultFromListAfterSearchDota_2 = searchResultPagePF.getSecondResultFromListAfterSearchDota2();
+    public void testGameSearch() throws IOException {
+        String GameInfoResult1_Game2_Name = new HomePagePF(driver)
+                .openHomePage()
+                .searchDota2()
+                .getGameInfoResult1()
+                .getGameInfoResult1_Game2_Name();
 
-        String secondNameFromResultListAfterSearchDota_2 = searchResultPagePF.getSecondNameFromResultListAfterSearchDota2();
-        searchResultPagePF.writeSecondNameFromResultListAfterSearchDota_2InSearchField(secondNameFromResultListAfterSearchDota_2);
-        searchResultPagePF.clickSearchInSearchField2();
+        new HomePagePF(driver)
+                .openHomePage()
+                .secondSearchGame(GameInfoResult1_Game2_Name)
+                .getGameInfoResult2();
 
-        String firstNameFromResultListSecondSearch = searchResultPagePF.getFirstNameFromResultListSecondSearch();
-        Boolean firstCompare =
-                searchResultPagePF.compareFirstNameFromResultListSecondSearchWithListAfterSearchDota_2(firstNameFromResultListSecondSearch,
-                firstResultFromListAfterSearchDota_2, secondResultFromListAfterSearchDota_2);
-        String secondNameFromResultListSecondSearch = searchResultPagePF.getSecondNameFromResultListSecondSearch();
+        List<GameInformation> gameInfoResult1FromDB = ParserJsonToJava.jsonParse(DOTA2_SEARCH_RESULT_LIST_DB_PATH);
+        List<GameInformation> gameInfoResult2FromDB = ParserJsonToJava.jsonParse(SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH);
 
-        Boolean secondCompare =
-                searchResultPagePF.compareSecondNameFromResultListSecondSearchWithListAfterSearchDota_2(secondNameFromResultListSecondSearch,
-                firstResultFromListAfterSearchDota_2, secondResultFromListAfterSearchDota_2);
+        Assert.assertEqualsNoOrder(gameInfoResult1FromDB, gameInfoResult2FromDB,
+                "The results of the first search do not match the results of the second search." );
+    }
 
-        Assert.assertTrue(firstCompare && secondCompare,
-                "Result list doesn't contain 2 stored items form the previous search. All stored data aren't matched.");
+    @AfterMethod(alwaysRun = true)
+    public void closeWebDiver() {
+        driver.quit();
+        driver = null;
     }
 }
+

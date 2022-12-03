@@ -14,7 +14,7 @@ public class WebDriverSingleton {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
             driver = new ChromeDriver(options);
-            driver.manage().window().maximize();        }
+       }
         return driver;
     }
 }
