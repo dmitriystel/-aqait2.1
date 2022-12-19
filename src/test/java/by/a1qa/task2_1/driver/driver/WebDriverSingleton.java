@@ -1,5 +1,6 @@
-package by.a1qa.task2_1test.main;
+package by.a1qa.task2_1.driver.driver;
 
+import by.a1qa.task2_1.driver.util.ConfigManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,9 +13,10 @@ public class WebDriverSingleton {
         if (driver == null) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--incognito");
+            options.addArguments(ConfigManager.getBrowserMode());
             driver = new ChromeDriver(options);
-       }
+            driver.manage().window().maximize();
+        }
         return driver;
     }
 }

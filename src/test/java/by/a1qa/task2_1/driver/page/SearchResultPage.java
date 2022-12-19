@@ -1,107 +1,133 @@
-package by.a1qa.task2_1.selenium;
+package by.a1qa.task2_1.driver.page;
 
-import by.a1qa.task2_1.bean.GameInformation;
-import by.a1qa.task2_1.bean.Platform;
-import by.a1qa.task2_1.parser.ParserJavaToJson;
-import by.a1qa.task2_1.parser.ParserJsonToJava;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import by.a1qa.task2_1.driver.bean.GameInformation;
+import by.a1qa.task2_1.driver.bean.Platform;
+import by.a1qa.task2_1.driver.util.ParserJavaToJson;
+import by.a1qa.task2_1.driver.util.ParserJsonToJava;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultPagePF extends BasePage {
-    public SearchResultPagePF(WebDriver driver) {
+import static by.a1qa.task2_1.driver.page.MainPage.GAME_TITLE;
+
+public class SearchResultPage extends BasePage {
+    public SearchResultPage(WebDriver driver) {
         super(driver);
     }
 
-    public static final String DOTA2_SEARCH_RESULT_LIST_DB_PATH = "src/test/resources/Dota2SearchResultListDB.json";
-    public static final String SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH = "src/test/resources/SecondSearchGameResultListDB.json";
-
-    @FindBy(xpath = "//span[text()=\"Dota 2\"]\n")
+    public static final String DOTA2_SEARCH_RESULT_LIST_DB_PATH = "src/test/resources/testData/Dota2SearchResultListDB.json";
+    public static final String SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH = "src/test/resources/testData/SecondSearchGameResultListDB.json";
+// ok
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"title\"]")
     private WebElement gameInfoResult1_Game1_Name;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[1]/div/span[1]")
+    // ok
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"platform_img win\"]")
     private WebElement gameInfoResult1_Game1_WinPlatform;
-
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[1]/div/span[2]")
+    // ok
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"platform_img mac\"]")
     private WebElement gameInfoResult1_Game1_MacPlatform;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[1]/div/span[3]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"platform_img linux\"]")
     private WebElement gameInfoResult1_Game1_LinuxPlatform;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//div[@class=\"col search_released responsive_secondrow\"]")
     private WebElement gameInfoResult1_Game1_ReleaseDate;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[3]/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"search_review_summary positive\"]")
     private WebElement gameInfoResult1_Game1_ReviewSummaryResult;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[4]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//div[@class=\"col search_price_discount_combined responsive_secondrow\"]")
     private WebElement gameInfoResult1_Game1_Price;
 
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[1]/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//span[@class=\"title\"]")
     private WebElement gameInfoResult1_Game2_Name;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[1]/div/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//span[@class=\"platform_img music\"]")
     private WebElement gameInfoResult1_Game2_RemixeMusic;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//div[@class=\"col search_released responsive_secondrow\"]")
     private WebElement gameInfoResult1_Game2_ReleaseDate;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[3]/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//span[@class=\"search_review_summary positive\"]")
     private WebElement gameInfoResult1_Game2_ReviewSummaryResult;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[4]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//div[@class=\"col search_price_discount_combined responsive_secondrow\"]")
     private WebElement gameInfoResult1_Game2_Price;
 
 
 
-    @FindBy (xpath = "//*[@id=\"term\"]")
+    //
+    @FindBy (name = "displayterm")
     private WebElement searchField2;
 
-    @FindBy (xpath = "//*[@id=\"advsearchform\"]/div[1]/div/div[1]/div[1]/div[2]/button/span")
+    //
+    @FindBy (xpath = "//*[@class=\"searchbar\"]//button/span")
     private WebElement searchInSearchField2;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[1]/span")
+    // duplication
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"title\"]")
     private WebElement gameInfoResult2_Game1_Name;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[1]/div/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"platform_img music\"]")
     private WebElement gameInfoResult2_Game1_RemixeMusic;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//div[@class=\"col search_released responsive_secondrow\"]")
     private WebElement gameInfoResult2_Game1_ReleaseDate;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[3]/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//span[@class=\"search_review_summary positive\"]")
     private WebElement gameInfoResult2_Game1_ReviewSummaryResult;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[1]/div[2]/div[4]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[1]//div[@class=\"col search_price  responsive_secondrow\"]")
     private WebElement gameInfoResult2_Game1_Price;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[1]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//span[@class=\"title\"]")
     private WebElement gameInfoResult2_Game2_Name;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[1]/div/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//span[@class=\"platform_img music\"]")
     private WebElement gameInfoResult2_Game2_RemixeMusic;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//div[@class=\"col search_released responsive_secondrow\"]")
     private WebElement gameInfoResult2_Game2_ReleaseDate;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[3]/span")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//span[@class=\"search_review_summary positive\"]")
     private WebElement gameInfoResult2_Game2_ReviewSummaryResult;
 
-    @FindBy(xpath = "//*[@id=\"search_resultsRows\"]/a[2]/div[2]/div[4]/div[2]")
+    //
+    @FindBy(xpath = "//div[@id=\"search_resultsRows\"]/a[2]//div[@class=\"col search_price  responsive_secondrow\"]")
     private WebElement gameInfoResult2_Game2_Price;
 
-    public SearchResultPagePF getGameInfoResult1() throws IOException {
+
+
+
+    public Boolean isSearchBoxOnResultPageContainsSearchedName(){
+        return (searchField2.getAttribute("value")).equals(GAME_TITLE);
+    }
+
+
+    public SearchResultPage getGameInfoResult1() throws IOException {
 
         List<GameInformation> gameInfoResult1 = new ArrayList<>();
 
@@ -110,7 +136,6 @@ public class SearchResultPagePF extends BasePage {
                         new Platform(gameInfoResult1_Game1_WinPlatform.getAttribute("class"),
 
                                 gameInfoResult1_Game1_MacPlatform.getAttribute("class"),
-//                                gameInfoResult1_Game1_MacPlatform.getText(),
 
                                 gameInfoResult1_Game1_LinuxPlatform.getAttribute("class")),
                         gameInfoResult1_Game1_ReleaseDate.getText(),
@@ -135,7 +160,7 @@ public class SearchResultPagePF extends BasePage {
     return gameInfoResult1_Game2_Name.getText();
     }
 
-    public SearchResultPagePF getGameInfoResult2() throws IOException {
+    public SearchResultPage getGameInfoResult2() throws IOException {
 
         List<GameInformation> gameInfoResult2 = new ArrayList<>();
 
@@ -158,6 +183,12 @@ public class SearchResultPagePF extends BasePage {
         ParserJavaToJson.writeJavaInJson(SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH, gameInfoResult2);
 
         return this;
+    }
+
+    public Boolean isStoredItemsAreMatched() throws IOException {
+        List<GameInformation> gameInfoResult1FromDB = ParserJsonToJava.jsonParse(DOTA2_SEARCH_RESULT_LIST_DB_PATH);
+        List<GameInformation> gameInfoResult2FromDB = ParserJsonToJava.jsonParse(SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH);
+        return gameInfoResult1FromDB.containsAll(gameInfoResult2FromDB);
     }
 }
 

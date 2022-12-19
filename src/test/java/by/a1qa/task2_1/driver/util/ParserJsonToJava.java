@@ -1,7 +1,7 @@
-package by.a1qa.task2_1.parser;
+package by.a1qa.task2_1.driver.util;
 
-import by.a1qa.task2_1.bean.GameInformation;
-import by.a1qa.task2_1.bean.PrivacyPolicyRevision;
+import by.a1qa.task2_1.driver.bean.GameInformation;
+import by.a1qa.task2_1.driver.bean.PrivacyPolicyRevision;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,7 +19,6 @@ public class ParserJsonToJava {
     }
 
     public static PrivacyPolicyRevision jsonParseObject(String path) throws IOException {
-        //File file = new File(path);
         ObjectMapper om = new ObjectMapper();
         PrivacyPolicyRevision result = om.readValue(Paths.get(path).toFile(), PrivacyPolicyRevision.class);
         return result;

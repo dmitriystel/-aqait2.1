@@ -1,0 +1,5 @@
+{
+  "url": "https://store.steampowered.com/",
+  "waitDuration": "10",
+  "browserMode": "--incognito"
+}
