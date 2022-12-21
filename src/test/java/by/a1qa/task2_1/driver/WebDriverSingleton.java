@@ -1,6 +1,6 @@
-package by.a1qa.task2_1.driver.driver;
+package by.a1qa.task2_1.driver;
 
-import by.a1qa.task2_1.driver.util.ConfigManager;
+import by.a1qa.task2_1.util.ConfigManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

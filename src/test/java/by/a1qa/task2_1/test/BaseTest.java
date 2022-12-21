@@ -1,6 +1,6 @@
-package by.a1qa.task2_1.driver.test;
+package by.a1qa.task2_1.test;
 
-import by.a1qa.task2_1.driver.driver.WebDriverSingleton;
+import by.a1qa.task2_1.driver.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

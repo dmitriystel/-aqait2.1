@@ -1,4 +1,4 @@
-package by.a1qa.task2_1.driver.bean;
+package by.a1qa.task2_1.bean;
 
 import java.util.Objects;
 

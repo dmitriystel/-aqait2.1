@@ -1,10 +1,10 @@
-package by.a1qa.task2_1.driver.test;
+package by.a1qa.task2_1.test;
 
-import by.a1qa.task2_1.driver.page.MainPage;
-import by.a1qa.task2_1.driver.page.SearchResultPage;
+import by.a1qa.task2_1.page.MainPage;
+import by.a1qa.task2_1.page.GameSearchResultPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import by.a1qa.task2_1.driver.page.PrivacyPolicyPage;
+import by.a1qa.task2_1.page.PrivacyPolicyPage;
 
 import java.io.IOException;
 import java.time.Year;
@@ -35,17 +35,17 @@ public class StoreSteamTest extends BaseTest {
     public void testGameSearch() throws IOException {
         MainPage mainPage = new MainPage(driver);
 
-        SearchResultPage searchResultPage;
-        SearchResultPage searchResultPage2;
+        GameSearchResultPage gameSearchResultPage;
+        GameSearchResultPage gameSearchResultPage2;
 
-        searchResultPage = mainPage
+        gameSearchResultPage = mainPage
                 .navigateToMainPage()
                 .searchDota2();
 
-        Assert.assertTrue(searchResultPage.isSearchBoxOnResultPageContainsSearchedName(),
+        Assert.assertTrue(gameSearchResultPage.isSearchBoxOnResultPageContainsSearchedName(),
                 "The first name is not equal to searched name");
 
-        String GameInfoResult1_Game2_Name = searchResultPage
+        String GameInfoResult1_Game2_Name = gameSearchResultPage
                 .getGameInfoResult1()
                 .getGameInfoResult1_Game2_Name();
 
@@ -55,7 +55,7 @@ public class StoreSteamTest extends BaseTest {
                 .secondSearchGame(GameInfoResult1_Game2_Name)
                 .getGameInfoResult2();
 
-        Assert.assertTrue(searchResultPage.isStoredItemsAreMatched(),
+        Assert.assertTrue(gameSearchResultPage.isStoredItemsAreMatched(),
                 "The results of the first search don't match the results of the second search.");
 
 

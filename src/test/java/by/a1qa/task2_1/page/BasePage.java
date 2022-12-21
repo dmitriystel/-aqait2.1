@@ -1,4 +1,4 @@
-package by.a1qa.task2_1.driver.page;
+package by.a1qa.task2_1.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;

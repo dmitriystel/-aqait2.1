@@ -1,4 +1,4 @@
-package by.a1qa.task2_1.driver.util;
+package by.a1qa.task2_1.util;
 
 public class ConfigManager {
     private static final String CONFIG_FILE_PATH = "src/test/resources/configData/config.json";

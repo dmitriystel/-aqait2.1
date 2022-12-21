@@ -1,7 +1,7 @@
-package by.a1qa.task2_1.driver.util;
+package by.a1qa.task2_1.util;
 
-import by.a1qa.task2_1.driver.bean.GameInformation;
-import by.a1qa.task2_1.driver.bean.PrivacyPolicyRevision;
+import by.a1qa.task2_1.bean.GameInformation;
+import by.a1qa.task2_1.bean.PrivacyPolicyRevision;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

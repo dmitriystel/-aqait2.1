@@ -1,4 +1,4 @@
-package by.a1qa.task2_1.driver.util;
+package by.a1qa.task2_1.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
