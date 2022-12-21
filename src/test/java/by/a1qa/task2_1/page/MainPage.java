@@ -1,6 +1,7 @@
 package by.a1qa.task2_1.page;
 
 import by.a1qa.task2_1.util.ConfigManager;
+import by.a1qa.task2_1.wait.ConditionalWait;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,8 +37,9 @@ public class MainPage extends BasePage {
 
     public PrivacyPolicyPage scrollAndOpenPrivacyPolicy() {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", privacyPolicy);
-        new WebDriverWait(driver, Duration.ofSeconds(ConfigManager.getWaitDurationInSeconds()))
-                .until(ExpectedConditions.elementToBeClickable(privacyPolicy));
+        ConditionalWait.waitToBeClickable(privacyPolicy);
+//        new WebDriverWait(driver, Duration.ofSeconds(ConfigManager.getWaitDurationInSeconds()))
+//                .until(ExpectedConditions.elementToBeClickable(privacyPolicy));
         privacyPolicy.click();
         switchToNewWindow();
         return new PrivacyPolicyPage(driver);
@@ -51,16 +53,14 @@ public class MainPage extends BasePage {
     }
 
     public GameSearchResultPage searchDota2() {
-        new WebDriverWait(driver, Duration.ofSeconds(ConfigManager.getWaitDurationInSeconds()))
-                .until(ExpectedConditions.elementToBeClickable(searchField));
+        ConditionalWait.waitToBeClickable(searchField);
         searchField.sendKeys(GAME_TITLE);
         searchButtonSubmit.click();
         return new GameSearchResultPage(driver);
     }
 
     public GameSearchResultPage secondSearchGame(String someGame){
-        new WebDriverWait(driver, Duration.ofSeconds(ConfigManager.getWaitDurationInSeconds()))
-                .until(ExpectedConditions.elementToBeClickable(searchField));
+        ConditionalWait.waitToBeClickable(searchField);
         searchField.sendKeys(someGame);
         searchButtonSubmit.click();
         return new GameSearchResultPage(driver);
