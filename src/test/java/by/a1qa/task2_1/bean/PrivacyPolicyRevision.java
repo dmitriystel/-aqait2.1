@@ -1,44 +1,32 @@
 package by.a1qa.task2_1.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.*;
+
 import java.util.Objects;
+/*
+Code review 24.12.2022
+1st comment: Class fields must have access modifiers. To limit the scope properly
+Theory:
+JavaBeans: part of the basic requirements for Bean component classes
+- fields must be encapsulated;
+- getters and setters must be used to access fields
 
+fixed: field is private
+
+2nd comment:
+constructor and some of the getters/setters are not used anywhere.
+You don't want to clog the project with unused code. For convenient work with models, I recommend using lombok
+
+fixed:lombok used
+*/
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
+@ToString
 public class PrivacyPolicyRevision {
-
-    String policyRevision;
-
-    public PrivacyPolicyRevision(){}
-
-    public PrivacyPolicyRevision(String policyRevision) {
-        this.policyRevision = policyRevision;
-    }
-
-    public String getPolicyRevision() {
-        return policyRevision;
-    }
-
-    public void setPolicyRevision(String policyRevision) {
-        this.policyRevision = policyRevision;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PrivacyPolicyRevision)) return false;
-        PrivacyPolicyRevision that = (PrivacyPolicyRevision) o;
-        return Objects.equals(getPolicyRevision(), that.getPolicyRevision());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getPolicyRevision());
-    }
-
-    @Override
-    public String toString() {
-        return "PrivacyPolicyRevision{" +
-                "policyRevision='" + policyRevision + '\'' +
-                '}';
-    }
+    private String policyRevision;
 }
 
 

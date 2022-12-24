@@ -1,6 +1,6 @@
 package by.a1qa.task2_1.test;
 
-import by.a1qa.task2_1.driver.DriverSingle;
+import by.a1qa.task2_1.driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -10,12 +10,12 @@ public abstract class BaseTest {
 
     @BeforeTest
     public void browserSetUp() {
-        driver = DriverSingle.getInstance();
+        driver = DriverSingleton.getInstance();
     }
 
     @AfterTest(alwaysRun = true)
     public void closeWebDiver() {
-        driver.quit();
+        DriverSingleton.getInstance().quit();
         driver = null;
     }
 }
