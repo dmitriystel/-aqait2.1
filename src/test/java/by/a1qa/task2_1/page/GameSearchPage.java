@@ -52,27 +52,27 @@ public class GameSearchPage extends BasePage {
     public GameInformation getGameInfo(WebElement element){
         String title = element.findElement(nameLocator).getText();
         String windowsOrRemixe = "";
-        if ( (DriverSingleton.getInstance()).findElement(platformLocator).isDisplayed() ){
+        if ( element.findElement(platformLocator).isDisplayed() ){
             windowsOrRemixe = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
         } else {
             windowsOrRemixe = "not provided";
         }
 
         String macOS = "";
-        if ((DriverSingleton.getInstance()).findElement(platformLocator).isDisplayed()){
+        if (element.findElement(platformLocator).isDisplayed()){
             macOS = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
         } else {
             macOS = "not provided";
         }
         String steamOS = "";
-        if ((DriverSingleton.getInstance()).findElement(platformLocator).isDisplayed()){
-            steamOS = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
+        if (element.findElement(platformLocator).isDisplayed()){
+            steamOS = element.findElement(platformLocator).getAttribute("class");
         } else {
             steamOS = "not provided";
         }
-        String releaseDate = (DriverSingleton.getInstance()).findElement(releaseDateLocator).getText();
-        String reviewSummaryResult =  (DriverSingleton.getInstance()).findElement(reviewSummaryResultLocator).getAttribute("data-tooltip-html");
-        String price = (DriverSingleton.getInstance()).findElement(priceLocator).getText();
+        String releaseDate = element.findElement(releaseDateLocator).getText();
+        String reviewSummaryResult =  element.findElement(reviewSummaryResultLocator).getAttribute("data-tooltip-html");
+        String price = element.findElement(priceLocator).getText();
         GameInformation gameInfoResult = new GameInformation (title, new Platform(windowsOrRemixe, macOS, steamOS), releaseDate, reviewSummaryResult, price);
         System.out.println(gameInfoResult);
         return gameInfoResult;
