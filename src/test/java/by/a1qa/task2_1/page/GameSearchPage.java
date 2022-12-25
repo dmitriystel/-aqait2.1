@@ -53,14 +53,14 @@ public class GameSearchPage extends BasePage {
         String title = element.findElement(nameLocator).getText();
         String windowsOrRemixe = "";
         if ( element.findElement(platformLocator).isDisplayed() ){
-            windowsOrRemixe = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
+            windowsOrRemixe = (element.findElement(platformLocator).getAttribute("class");
         } else {
             windowsOrRemixe = "not provided";
         }
 
         String macOS = "";
         if (element.findElement(platformLocator).isDisplayed()){
-            macOS = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
+            macOS = element.findElement(platformLocator).getAttribute("class");
         } else {
             macOS = "not provided";
         }
