@@ -2,10 +2,12 @@ package by.a1qa.task2_1.test;
 
 import by.a1qa.task2_1.page.GameSearchPage;
 import by.a1qa.task2_1.page.MainPage;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GameSearchTest extends BaseTest  {
     @Test
@@ -24,6 +26,20 @@ public class GameSearchTest extends BaseTest  {
                 "Search box on result page doesn't contain searched name");
         Assert.assertTrue(searchResultPage.isTheFirstNameIsEqualsToSearchName(),
                 "The first name isn't equal to searched name.");
+
+
+        List<WebElement> gameRows = searchResultPage.getGameRows();
+
+        searchResultPage.getGamesInfoResults(gameRows);
+
+
+
+//        String GameInfoResult1_Game2_Name = searchResultPage
+//                .getGamesInfoResults(ConfigManager.getDOTA2_SEARCH_RESULTS_PATH())
+//                .getSearchResultSecondGameName();
+
+
+
 //        String GameInfoResult1_Game2_Name = searchResultPage
 //                .getGameInfoResult1()
 //                .getSearchResultSecondGameName();

@@ -8,9 +8,7 @@ import by.a1qa.task2_1.util.ParserJavaToJson;
 import by.a1qa.task2_1.util.ParserJsonToJava;
 import by.a1qa.task2_1.wait.ConditionalWait;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,10 +22,78 @@ Use findElement
 fixed: findElement is used
 */
 public class GameSearchPage extends BasePage {
-
     public GameSearchPage() {
         super();
     }
+
+    By gameRowsLocator = By.xpath("//a[contains(@class,'search_result_row')]");
+    By nameLocator = By.xpath(".//span[contains(@class, 'title')]");
+    By platformLocator = By.xpath(".//span[contains(@class, 'platform')]");
+    By releaseDateLocator = By.xpath(".//div[contains(@class, 'release')]");
+    By reviewSummaryResultLocator = By.xpath(".//span[contains(@class, 'review')]");
+    By priceLocator = By.xpath(".//div[contains(@class, 'price')]//div[contains(@class, 'price')]");
+
+    public List<WebElement> getGameRows(){
+        List<WebElement> gameRows = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            gameRows.add(((DriverSingleton.getInstance()).findElement(gameRowsLocator)));
+        }
+        return gameRows;
+    }
+
+    public GameSearchPage getGamesInfoResults(List<WebElement> gameRows){
+        List<GameInformation> gameInfoResults = new ArrayList<>();
+        for(WebElement element : gameRows){
+            gameInfoResults.add(getGameInfo(element)); ;
+        }
+        return this;
+    }
+
+    public GameInformation getGameInfo(WebElement element){
+        String title = element.findElement(nameLocator).getText();
+        String windowsOrRemixe = "";
+        if ( (DriverSingleton.getInstance()).findElement(platformLocator).isDisplayed() ){
+            windowsOrRemixe = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
+        } else {
+            windowsOrRemixe = "not provided";
+        }
+
+        String macOS = "";
+        if ((DriverSingleton.getInstance()).findElement(platformLocator).isDisplayed()){
+            macOS = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
+        } else {
+            macOS = "not provided";
+        }
+        String steamOS = "";
+        if ((DriverSingleton.getInstance()).findElement(platformLocator).isDisplayed()){
+            steamOS = (DriverSingleton.getInstance()).findElement(platformLocator).getAttribute("class");
+        } else {
+            steamOS = "not provided";
+        }
+        String releaseDate = (DriverSingleton.getInstance()).findElement(releaseDateLocator).getText();
+        String reviewSummaryResult =  (DriverSingleton.getInstance()).findElement(reviewSummaryResultLocator).getAttribute("data-tooltip-html");
+        String price = (DriverSingleton.getInstance()).findElement(priceLocator).getText();
+        GameInformation gameInfoResult = new GameInformation (title, new Platform(windowsOrRemixe, macOS, steamOS), releaseDate, reviewSummaryResult, price);
+        System.out.println(gameInfoResult);
+        return gameInfoResult;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static final String DOTA2_SEARCH_RESULT_LIST_DB_PATH = "src/test/resources/testData/Dota2SearchResultListDB.json";
     public static final String SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH = "src/test/resources/testData/SecondSearchGameResultListDB.json";
 
@@ -74,57 +140,97 @@ public class GameSearchPage extends BasePage {
         return ((DriverSingleton.getInstance()).findElement(searchResultFirstGameNameLocator).getText()).equals(ConfigManager.getGameTitle());
     }
 
-//    public GameSearchPage getGameInfoResult1() throws IOException {
-//        List<GameInformation> gameInfoResult1 = new ArrayList<>();
-//
-//        GameInformation gameInfoResult1_Game1 =
-//                new GameInformation((DriverSingleton.getInstance()).findElement(searchResultFirstGameNameLocator).getText(),
-//                        new Platform((DriverSingleton.getInstance()).findElement(winPlatformLocator).getAttribute("class"),
-//                                (DriverSingleton.getInstance()).findElement(macPlatformLocator).getAttribute("class"),
-//                                (DriverSingleton.getInstance()).findElement(linuxPlatformLocator).getAttribute("class")),
-//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReleaseDateLocator).getText(),
-//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
-//                        (DriverSingleton.getInstance()).findElement(searchFirstResultFirstGamePriceLocator).getText());
-//        gameInfoResult1.add(gameInfoResult1_Game1);
-//
-//        GameInformation gameInfoResult1_Game2 =
-//                new GameInformation((DriverSingleton.getInstance()).findElement(searchResultSecondGameNameLocator).getText(),
-//                        new Platform((DriverSingleton.getInstance()).findElement(searchResultSecondGameRemixMusicLocator).getAttribute("class")),
-//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReleaseDateLocator).getText(),
-//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
-//                        (DriverSingleton.getInstance()).findElement(searchFirstResultSecondGamePriceLocator).getText());
-//        gameInfoResult1.add(gameInfoResult1_Game2);
-//
-//        ParserJavaToJson.writeJavaInJson(DOTA2_SEARCH_RESULT_LIST_DB_PATH, gameInfoResult1);
-//
-//        return this;
-//    }
+
+    public GameSearchPage getGamesInfoResults(String path) throws IOException {
+        List<GameInformation> gameInfoResults = new ArrayList<>();
+
+        String title1 = (DriverSingleton.getInstance()).findElement(searchResultFirstGameNameLocator).getText();
+        String windowsOrRemixe1 = "";
+
+        if ( (DriverSingleton.getInstance()).findElement(winPlatformLocator).isDisplayed() ){
+            windowsOrRemixe1 = (DriverSingleton.getInstance()).findElement(winPlatformLocator).getAttribute("class");
+        } else if ( (DriverSingleton.getInstance()).findElement(searchSecondResultFirstGameRemixMusicLocator).isDisplayed() ){
+            (DriverSingleton.getInstance()).findElement(searchResultSecondGameRemixMusicLocator).getAttribute("class");
+        }
+
+        String macOS1 = "";
+        if ((DriverSingleton.getInstance()).findElement(macPlatformLocator).isDisplayed()){
+            macOS1 = (DriverSingleton.getInstance()).findElement(macPlatformLocator).getAttribute("class");
+        } else {
+            macOS1 = "not provided";
+        }
+        String steamOS1 = "";
+        if ((DriverSingleton.getInstance()).findElement(linuxPlatformLocator).isDisplayed()){
+            steamOS1 = (DriverSingleton.getInstance()).findElement(linuxPlatformLocator).getAttribute("class");
+        } else {
+            steamOS1 = "not provided";
+        }
+        String releaseDate = (DriverSingleton.getInstance()).findElement(searchResultFirstGameReleaseDateLocator).getText();
+        String reviewSummaryResult =  (DriverSingleton.getInstance()).findElement(searchResultFirstGameReviewSummaryResultLocator).getAttribute("data-tooltip-html");
+        String price = (DriverSingleton.getInstance()).findElement(searchFirstResultFirstGamePriceLocator).getText();
+        GameInformation gameInfoResul1 = new GameInformation (title1, new Platform(windowsOrRemixe1, macOS1, steamOS1), releaseDate, reviewSummaryResult, price);
+
+
+
+        gameInfoResults.add(gameInfoResul1);
+
+
+
+        String title2 = (DriverSingleton.getInstance()).findElement(searchResultSecondGameNameLocator).getText();
+
+
+
+
+
+        String windowsOrRemixe2 = "";
+        if ( (DriverSingleton.getInstance()).findElement(winPlatformLocator).isDisplayed() ){
+            windowsOrRemixe2 = (DriverSingleton.getInstance()).findElement(winPlatformLocator).getAttribute("class");
+        } else if ( (DriverSingleton.getInstance()).findElement(searchSecondResultFirstGameRemixMusicLocator).isDisplayed() ){
+            (DriverSingleton.getInstance()).findElement(searchResultSecondGameRemixMusicLocator).getAttribute("class");
+        }
+
+
+
+        String macOS2 = "";
+        if ((DriverSingleton.getInstance()).findElement(macPlatformLocator).isDisplayed()){
+            macOS2 = (DriverSingleton.getInstance()).findElement(macPlatformLocator).getAttribute("class");
+        } else {
+            macOS2 = "not provided";
+        }
+
+
+        String steamOS2 = "";
+        if ((DriverSingleton.getInstance()).findElement(linuxPlatformLocator).isDisplayed()){
+            steamOS2 = (DriverSingleton.getInstance()).findElement(linuxPlatformLocator).getAttribute("class");
+        } else {
+            steamOS2 = "not provided";
+        }
+        String releaseDate2 = (DriverSingleton.getInstance()).findElement(searchResultSecondGameReleaseDateLocator).getText();
+        String reviewSummaryResult2 =  (DriverSingleton.getInstance()).findElement(searchResultSecondGameReviewSummaryResultLocator).getAttribute("data-tooltip-html");
+        String price2 = (DriverSingleton.getInstance()).findElement(searchFirstResultSecondGamePriceLocator).getText();
+        GameInformation gameInfoResul2 = new GameInformation (title2, new Platform(windowsOrRemixe2, macOS2, steamOS2), releaseDate2, reviewSummaryResult2, price2);
+        gameInfoResults.add(gameInfoResul2);
+
+
+        ParserJavaToJson.writeJavaInJson(path, gameInfoResults);
+
+
+
+        return this;
+
+    }
+
+
+
+
+
+
+
 
     public String getSearchResultSecondGameName(){
         return (DriverSingleton.getInstance()).findElement(searchResultSecondGameNameLocator).getText();
     }
-//    public GameSearchPage getGameInfoResult2() throws IOException {
-//        List<GameInformation> gameInfoResult2 = new ArrayList<>();
-//
-//        GameInformation gameInfoResult2_Game1 =
-//                new GameInformation( (DriverSingleton.getInstance()).findElement(searchResultFirstGameNameLocator).getText(),
-//                        new Platform((DriverSingleton.getInstance()).findElement(searchSecondResultFirstGameRemixMusicLocator).getAttribute("class")),
-//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReleaseDateLocator).getText(),
-//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
-//                       (DriverSingleton.getInstance()).findElement(searchSecondResultFirstGamePriceLocator).getText());
-//        gameInfoResult2.add(gameInfoResult2_Game1);
-//
-//        GameInformation gameInfoResult2_Game2 =
-//                new GameInformation((DriverSingleton.getInstance()).findElement(searchResultSecondGameNameLocator).getText(),
-//                        new Platform((DriverSingleton.getInstance()).findElement(driver.findElement(searchResultSecondGameRemixMusicLocator).getAttribute("class")),
-//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReleaseDateLocator).getText()),
-//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
-//                        searchSecondResultSecondGamePrice.getText());
-//        gameInfoResult2.add(gameInfoResult2_Game2);
-//
-//        ParserJavaToJson.writeJavaInJson(SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH, gameInfoResult2);
-//        return this;
-//    }
+
 
     public Boolean isStoredItemsAreMatched() throws IOException {
         List<GameInformation> gameInfoResult1FromDB = ParserJsonToJava.jsonParse(DOTA2_SEARCH_RESULT_LIST_DB_PATH);
@@ -132,6 +238,7 @@ public class GameSearchPage extends BasePage {
         return gameInfoResult1FromDB.containsAll(gameInfoResult2FromDB);
     }
 }
+
 
 
 /*
@@ -172,3 +279,53 @@ public class GameSearchPage extends BasePage {
     private WebElement searchSecondResultSecondGamePrice;
  */
 
+
+//    public GameSearchPage getGameInfoResult1() throws IOException {
+//        List<GameInformation> gameInfoResult1 = new ArrayList<>();
+//
+//        GameInformation gameInfoResult1_Game1 =
+//                new GameInformation((DriverSingleton.getInstance()).findElement(searchResultFirstGameNameLocator).getText(),
+//                        new Platform((DriverSingleton.getInstance()).findElement(winPlatformLocator).getAttribute("class"),
+//                                (DriverSingleton.getInstance()).findElement(macPlatformLocator).getAttribute("class"),
+//                                (DriverSingleton.getInstance()).findElement(linuxPlatformLocator).getAttribute("class")),
+//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReleaseDateLocator).getText(),
+//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
+//                        (DriverSingleton.getInstance()).findElement(searchFirstResultFirstGamePriceLocator).getText());
+//        gameInfoResult1.add(gameInfoResult1_Game1);
+//
+//        GameInformation gameInfoResult1_Game2 =
+//                new GameInformation((DriverSingleton.getInstance()).findElement(searchResultSecondGameNameLocator).getText(),
+//                        new Platform((DriverSingleton.getInstance()).findElement(searchResultSecondGameRemixMusicLocator).getAttribute("class")),
+//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReleaseDateLocator).getText(),
+//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
+//                        (DriverSingleton.getInstance()).findElement(searchFirstResultSecondGamePriceLocator).getText());
+//        gameInfoResult1.add(gameInfoResult1_Game2);
+//
+//        ParserJavaToJson.writeJavaInJson(DOTA2_SEARCH_RESULT_LIST_DB_PATH, gameInfoResult1);
+//
+//        return this;
+//    }
+
+
+//    public GameSearchPage getGameInfoResult2() throws IOException {
+//        List<GameInformation> gameInfoResult2 = new ArrayList<>();
+//
+//        GameInformation gameInfoResult2_Game1 =
+//                new GameInformation( (DriverSingleton.getInstance()).findElement(searchResultFirstGameNameLocator).getText(),
+//                        new Platform((DriverSingleton.getInstance()).findElement(searchSecondResultFirstGameRemixMusicLocator).getAttribute("class")),
+//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReleaseDateLocator).getText(),
+//                        (DriverSingleton.getInstance()).findElement(searchResultFirstGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
+//                       (DriverSingleton.getInstance()).findElement(searchSecondResultFirstGamePriceLocator).getText());
+//        gameInfoResult2.add(gameInfoResult2_Game1);
+//
+//        GameInformation gameInfoResult2_Game2 =
+//                new GameInformation((DriverSingleton.getInstance()).findElement(searchResultSecondGameNameLocator).getText(),
+//                        new Platform((DriverSingleton.getInstance()).findElement(driver.findElement(searchResultSecondGameRemixMusicLocator).getAttribute("class")),
+//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReleaseDateLocator).getText()),
+//                        (DriverSingleton.getInstance()).findElement(searchResultSecondGameReviewSummaryResultLocator).getAttribute("data-tooltip-html"),
+//                        searchSecondResultSecondGamePrice.getText());
+//        gameInfoResult2.add(gameInfoResult2_Game2);
+//
+//        ParserJavaToJson.writeJavaInJson(SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH, gameInfoResult2);
+//        return this;
+//    }

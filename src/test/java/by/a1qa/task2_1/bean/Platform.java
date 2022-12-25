@@ -1,8 +1,6 @@
 package by.a1qa.task2_1.bean;
 
 import lombok.*;
-
-import java.util.Objects;
 /*
 Code review 24.12.2022
 1st comment: Class fields must have access modifiers. To limit the scope properly
@@ -25,8 +23,7 @@ fixed:lombok used
 @EqualsAndHashCode
 @ToString
 public class Platform {
-    private String windows;
+    private String windowsOrRemixe;
     private String macOS;
     private String steamOS;
-    private String remixeMusic;
 }

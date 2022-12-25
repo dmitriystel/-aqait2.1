@@ -23,10 +23,29 @@ fixed:lombok used
 @Getter
 @EqualsAndHashCode
 @ToString
+
+//
+//@Data
+//@Builder
 public class GameInformation {
-    private String name;
+    private String title;
+    private Platform platform;
     private String releaseDate;
     private String reviewSummaryResult;
     private String price;
-    private Platform platform;
+
+//    public GameInformation(String title, Platform platform, String releaseDate, String reviewSummaryResult, String price){
+//        this.title = title;
+//        this.platform = platform;
+//        this.releaseDate = releaseDate;
+//        this.reviewSummaryResult = reviewSummaryResult;
+//        this.price = price;
+//    }
+
 }
+/*
+   private String windows;
+    private String macOS;
+    private String steamOS;
+    private String remixeMusic;
+ */

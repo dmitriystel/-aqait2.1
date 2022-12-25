@@ -19,4 +19,15 @@ public class ConfigManager {
     public static String getGameTitle(){
         return JSONCustomParser.parseElementByName(TEST_FILE_PATH, "gameTitle");
     }
+
+
+    public static String getDOTA2_SEARCH_RESULTS_PATH(){
+        return JSONCustomParser.parseElementByName(TEST_FILE_PATH, "DOTA2_SEARCH_RESULT_LIST_DB_PATH");
+    }
+
+    public static String getSECOND_SEARCH_GAME_RESULTS_PATH(){
+        return JSONCustomParser.parseElementByName(TEST_FILE_PATH, "SECOND_SEARCH_GAME_RESULT_LIST_DB_PATH");
+    }
+
+
 }
